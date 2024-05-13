@@ -1,8 +1,28 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import './app.less';
-import { Link, Outlet } from 'react-router-dom';
+import React, { Suspense, useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import { setREM } from '@/libs/rem';
+import { Layout, Menu, theme } from 'antd';
+import './app.less';
+const { Header, Content, Footer, Sider } = Layout;
 const App = () => {
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
+
+    const menuItems = [
+        {
+            key: '基本',
+            label: '基本',
+            type: 'group',
+            children: [
+                { key: '基本-基础', label: '基础' },
+                { key: '基本-响应式设计', label: '响应式设计' },
+                { key: '基本-先决条件', label: '先决条件' },
+                { key: '基本-设置', label: '设置' }
+            ]
+        }
+    ];
+
     useEffect(() => {
         setREM();
         // 监听屏幕分辨率，设置根字体大小
@@ -11,43 +31,23 @@ const App = () => {
         }
         return () => { };
     }, []);
-    setTimeout(() => {
-        throw new Error('asdfasd')
-    }, 2000)
     return (
-        <div className='mat-page-wrapper'>
-            <div className='mat-page-container'>
-                <header className='mat-page-header'>
-                    <h1>Header</h1>
-                </header>
-                <nav className='mat-page-nav'>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/welcome">welcome</Link>
-                        </li>
-                        <li>
-                            <Link to="/project">Projects</Link>
-                        </li>
-                        <li>
-                            <Link to="/contact">Contact</Link>
-                        </li>
-                    </ul>
-                    <form action='/home' method='get'>
-                        <input type='search' name='q' placeholder='Search query' />
-                        <input type='submit' value='Go' />
-                    </form>
-                </nav>
-                <Suspense>
-                    <Outlet />
-                </Suspense>
-                <footer className='mat-page-footer'>
-                    <p>&copy;Copyright 2050 by liuyongyuan. All rights reversed.</p>
-                </footer>
-            </div>
-        </div>
+        <Layout hasSider>
+            <Sider className='mat-page-sider' style={{ background: colorBgContainer }}>
+                <Menu mode='inline' items={menuItems} defaultSelectedKeys={['基本-基础']}></Menu>
+            </Sider>
+            <Layout>
+                <Header style={{ padding: 0, background: colorBgContainer }} />
+                <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                    <Suspense>
+                        <Outlet />
+                    </Suspense>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    &copy;Copyright 2050 by liuyongyuan. All rights reversed.
+                </Footer>
+            </Layout>
+        </Layout >
     );
 }
 

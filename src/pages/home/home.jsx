@@ -1,10 +1,12 @@
+import { Card, Layout } from 'antd';
 import React from 'react';
-import { Card } from "antd"
+
+const { Header, Content, Footer, Sider } = Layout;
 
 const Home = () => {
     return (
         <Card>
-            Hello World!
+            the home1
         </Card>
     )
 }

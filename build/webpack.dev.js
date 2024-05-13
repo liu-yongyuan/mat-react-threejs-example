@@ -10,7 +10,7 @@ module.exports = merge(baseConfig, {
   devtool: "eval-cheap-module-source-map", // 源码调试时的模式
 
   devServer: {
-    port: 3000, // 服务器端口号
+    port: 3010, // 服务器端口号
     hot: true, // 开启热模块替换功能
     compress: false, // gzip 压缩,开发模式下不开启,提升热更新的速度
     historyApiFallback: true, // 解决 history 路由一刷新变 404 的问题
