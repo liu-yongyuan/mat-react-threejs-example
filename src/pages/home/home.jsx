@@ -1,13 +1,13 @@
-import { Card, Layout } from 'antd';
 import React from 'react';
-
-const { Header, Content, Footer, Sider } = Layout;
+import { Card } from 'antd';
 
 const Home = () => {
     return (
-        <Card>
-            the home1
-        </Card>
+        <>
+            <Card>
+                three.js 应用的整体结构。一个基础的 three.js 应用结构。
+            </Card>
+        </>
     )
 }
 

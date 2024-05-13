@@ -1,7 +1,7 @@
 {
-  "name": "mat-cloud-react-jsx-webpack-template",
+  "name": "mat-react-threejs-example",
   "version": "1.0.0",
-  "description": "react learn. react example",
+  "description": "threejs example",
   "main": "index.js",
   "scripts": {
     "start": "npm run start:dev",
