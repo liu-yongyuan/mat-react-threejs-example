@@ -1,47 +1,9 @@
 import React, { useEffect } from 'react';
 import { Card } from 'antd';
-import * as THREE from 'three';
+import { useHome } from './use-home';
 
 const Home = () => {
-    function exampleThreejsCubeMain() {
-        const canvas = document.querySelector('#example-threejs-cube');
-        const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
-
-        const fov = 75;
-        const aspect = 2;
-        const near = 0.1;
-        const far = 5;
-        const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-        camera.position.z = 2;
-
-        const scene = new THREE.Scene();
-
-        const boxWidth = 1;
-        const boxHeight = 1;
-        const boxDepth = 1;
-        const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-
-        const material = new THREE.MeshBasicMaterial({ color: 0x44aa88 });
-
-        const cube = new THREE.Mesh(geometry, material);
-        scene.add(cube);
-
-        renderer.render(scene, camera);
-
-        function render(time) {
-            time *= 0.001;
-            cube.rotation.x = time;
-            cube.rotation.y = time;
-
-            renderer.render(scene, camera);
-            requestAnimationFrame(render);
-        }
-        requestAnimationFrame(render);
-    }
-    useEffect(() => {
-        exampleThreejsCubeMain();
-        return () => { }
-    }, [])
+    const { } = useHome();
     return (
         <>
             <Card>
@@ -95,7 +57,30 @@ const Home = () => {
                 <p>
                     <canvas id='example-threejs-cube' style={{ width: 300, height: 150 }}></canvas>
                 </p>
-
+                <p>
+                    Hello Cube 动态：
+                </p>
+                <p>
+                    <canvas id='example-threejs-cube-2' style={{ width: 300, height: 150 }}></canvas>
+                </p>
+                <p>
+                    添加光照效果，使得三维效果更加明显，注意看旋转过程：
+                </p>
+                <p>
+                    <canvas id='example-threejs-cube-3' style={{ width: 300, height: 150 }}></canvas>
+                </p>
+                <p>
+                    三个三维立方体的展示效果：
+                </p>
+                <p>
+                    <canvas id='example-threejs-cube-4' style={{ width: 300, height: 150 }}></canvas>
+                </p>
+                <p>
+                    三个三维立方体的代码结构：
+                </p>
+                <p>
+                    <img style={{ width: 768 }} src="https://threejs.org/manual/resources/images/threejs-3cubes-scene.svg" />
+                </p>
             </Card>
         </>
     )
