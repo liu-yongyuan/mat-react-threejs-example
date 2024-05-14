@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useId, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { setREM } from '@/libs/rem';
-import { Layout, Menu, theme } from 'antd';
+import { Col, Layout, Menu, Row, theme } from 'antd';
 import RouterMapperJson from '../../routes/router-mapper.json';
 
 import './app.less';
@@ -11,28 +11,47 @@ const App = () => {
         token: { colorBgContainer },
     } = theme.useToken();
 
-    const menuItemMap = new Map();
     function getMenuItemArray(menuItemArray) {
         return menuItemArray.map(item => {
             item.key = useId();
             item.label = item.name;
             if (!item?.forawrd) {
                 item.type = 'group';
-                if (item.children) {
+                if (item?.children) {
                     item.children = getMenuItemArray(item.children)
                 }
             }
-            menuItemMap.set(item.key, item);
             return item;
         })
     }
     const menuItems = getMenuItemArray(RouterMapperJson);
     const navigate = useNavigate();
 
-    const [activeMenu, setActiveMenu] = useState(null);
+    const [activeMenuArray, setActiveMenuArray] = useState([]);
+    function handleActiveMenuArray(activeMenuKey) {
+        const activeArray = [];
+        let activeMenuItem = null;
+        menuItems.forEach(item => {
+            if (Object.is(item.key, activeMenuKey)) {
+                activeArray.push(item);
+            } else {
+                if (item?.children) {
+                    item.children.forEach(childItem => {
+                        if (Object.is(childItem.key, activeMenuKey)) {
+                            activeArray.push(item);
+                            activeArray.push(childItem);
+                            activeMenuItem = childItem;
+                        }
+                    })
+                }
+            }
+        });
+        setActiveMenuArray(activeArray);
+        return activeMenuItem;
+    }
+
     function handleMenuItemSelect({ item, key, keyPath, domEvent }) {
-        const menuItem = menuItemMap.get(key);
-        setActiveMenu(menuItem);
+        const menuItem = handleActiveMenuArray(key);
         if (Object.is(menuItem?.forawrd, 1) && menuItem?.path) {
             navigate(menuItem.path);
         }
@@ -54,7 +73,17 @@ const App = () => {
             </Sider>
             <Layout>
                 <Header style={{ background: colorBgContainer }}>
-                    {activeMenu?.name}
+                    <Row gutter={1}>
+                        {
+                            activeMenuArray.map(item => {
+                                return (
+                                    <Col span={2} key={item.key}>
+                                        {item?.path ? <Link to={item.path}>{item.name}</Link> : item.name}
+                                    </Col>
+                                );
+                            })
+                        }
+                    </Row>
                 </Header>
                 <Content className='mat-page-content'>
                     <Suspense>
