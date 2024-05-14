@@ -3,7 +3,7 @@ import Home from '@/pages/home/home';
 import { createBrowserRouter } from 'react-router-dom';
 import React from 'react';
 
-const Welcome = React.lazy(() => import(/* webpackChunkName: "welcome" */ '../pages/welcome/welcome'));;
+const ResponsiveExample = React.lazy(() => import(/* webpackChunkName: "responsive-example" */ '../pages/basic/responsive-example'));;
 
 const router = createBrowserRouter(
   [
@@ -16,8 +16,8 @@ const router = createBrowserRouter(
           index: true,
         },
         {
-          path: '/welcome',
-          Component: Welcome
+          path: '/basic/responsive-example',
+          Component: ResponsiveExample
         }
       ],
     },

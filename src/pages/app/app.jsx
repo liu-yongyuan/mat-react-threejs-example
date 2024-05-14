@@ -1,7 +1,9 @@
-import React, { Suspense, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { Suspense, useEffect, useId, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { setREM } from '@/libs/rem';
 import { Layout, Menu, theme } from 'antd';
+import RouterMapperJson from '../../routes/router-mapper.json';
+
 import './app.less';
 const { Header, Content, Footer, Sider } = Layout;
 const App = () => {
@@ -9,19 +11,32 @@ const App = () => {
         token: { colorBgContainer },
     } = theme.useToken();
 
-    const menuItems = [
-        {
-            key: '基本',
-            label: '基本',
-            type: 'group',
-            children: [
-                { key: '基本-基础', label: '基础' },
-                { key: '基本-响应式设计', label: '响应式设计' },
-                { key: '基本-先决条件', label: '先决条件' },
-                { key: '基本-设置', label: '设置' }
-            ]
+    const menuItemMap = new Map();
+    function getMenuItemArray(menuItemArray) {
+        return menuItemArray.map(item => {
+            item.key = useId();
+            item.label = item.name;
+            if (!item?.forawrd) {
+                item.type = 'group';
+                if (item.children) {
+                    item.children = getMenuItemArray(item.children)
+                }
+            }
+            menuItemMap.set(item.key, item);
+            return item;
+        })
+    }
+    const menuItems = getMenuItemArray(RouterMapperJson);
+    const navigate = useNavigate();
+
+    const [activeMenu, setActiveMenu] = useState(null);
+    function handleMenuItemSelect({ item, key, keyPath, domEvent }) {
+        const menuItem = menuItemMap.get(key);
+        setActiveMenu(menuItem);
+        if (Object.is(menuItem?.forawrd, 1) && menuItem?.path) {
+            navigate(menuItem.path);
         }
-    ];
+    }
 
     useEffect(() => {
         setREM();
@@ -29,16 +44,19 @@ const App = () => {
         window.onresize = () => {
             setREM();
         }
+
         return () => { };
     }, []);
     return (
         <Layout hasSider>
             <Sider className='mat-page-sider' style={{ background: colorBgContainer }}>
-                <Menu mode='inline' items={menuItems} defaultSelectedKeys={['基本-基础']}></Menu>
+                <Menu mode='inline' items={menuItems} defaultActiveFirst={true} onSelect={handleMenuItemSelect}></Menu>
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
-                <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+                <Header style={{ background: colorBgContainer }}>
+                    {activeMenu?.name}
+                </Header>
+                <Content className='mat-page-content'>
                     <Suspense>
                         <Outlet />
                     </Suspense>
