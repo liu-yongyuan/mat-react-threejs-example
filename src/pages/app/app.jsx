@@ -94,7 +94,7 @@ const App = () => {
                     &copy;Copyright 2050 by liuyongyuan. All rights reversed.
                 </Footer>
             </Layout>
-        </Layout >
+        </Layout>
     );
 }
 
