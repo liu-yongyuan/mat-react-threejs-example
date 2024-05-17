@@ -21,5 +21,15 @@
                 "forawrd": 1
             }
         ]
+    },
+    {
+        "name": "基础",
+        "children": [
+            {
+                "name": "图元",
+                "path": "/fundamentals/primitives-example",
+                "forawrd": 1
+            }
+        ]
     }
 ]
