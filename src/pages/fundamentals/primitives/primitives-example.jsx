@@ -6,12 +6,9 @@ const PrimitivesExample = () => {
     const { } = usePrimitivesExample();
     return (
         <Card>
-            <div id="Diagram-BoxGeometry" data-primitive='BoxGeometry' >
-                <div className="shape" style={{ touchAction: 'none' }}></div>
-            </div>
-            <div>
-                <div data-diagram="Points" style={{ touchAction: 'none' }}></div>
-            </div>
+            <p>
+                <canvas id="diagram-boxgeometry" style={{ width: 880, height: 250 }}></canvas>
+            </p>
         </Card>
     );
 }
