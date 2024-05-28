@@ -7,7 +7,7 @@ const PrimitivesExample = () => {
     return (
         <Card>
             <p>
-                <canvas id="diagram-boxgeometry" style={{ width: 880, height: 250 }}></canvas>
+                <canvas id="primitives-example" style={{ width: 880, height: 500 }}></canvas>
             </p>
         </Card>
     );
